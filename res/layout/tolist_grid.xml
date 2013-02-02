@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EE30A7">
+    <LinearLayout 
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_height="135dp"
+        android:layout_width="135dp">
+    <TextView
+        android:id="@+id/text_tolist_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:textColor="#FFEFD5"
+        android:gravity="bottom"
+        android:paddingBottom="3dp"
+        />
+   </LinearLayout> 
+
+</RelativeLayout>
