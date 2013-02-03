@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     tools:context=".NewThingActivity" 
     android:layout_marginLeft="10dp"
-	android:layout_marginRight="10dp">
+	android:layout_marginRight="10dp"
+	android:id="@+id/edit_layout">
 
 	<EditText 
 	    android:id="@+id/edit_thing_title"

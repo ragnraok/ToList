@@ -3,17 +3,25 @@ package com.ragnarok.tolist.activity;
 import java.io.File;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -49,12 +57,14 @@ public class ThingEditActivity extends SherlockActivity {
 	private static final int PHOTO_CLIP = 3;
 	
 	private static final int PHOTO_SIZE = 130;
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_thing_edit);
-		
+
 		actionbar = this.getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		
@@ -64,7 +74,8 @@ public class ThingEditActivity extends SherlockActivity {
 		
 		setupView();
 	}
-	
+
+
 	private void setupView() {
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle != null && bundle.containsKey(Constant.TITLE) && bundle.containsKey(Constant.CONTENT) && 
@@ -101,6 +112,7 @@ public class ThingEditActivity extends SherlockActivity {
 		//return super.onOptionsItemSelected(item);
 		if (item.getItemId() == android.R.id.home) {
 			finish();
+			this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 			return true;
 		}
 		else {
@@ -129,6 +141,7 @@ public class ThingEditActivity extends SherlockActivity {
 					tolistDB.modifyThing(oldThing.title, oldThing.content, oldThing.pictPath, title, content, image);
 				}
 				finish();
+				this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 			}
 			
 			if (item.getTitle().equals(PHOTO)) {
@@ -242,5 +255,18 @@ public class ThingEditActivity extends SherlockActivity {
 			this.imageView.setImageBitmap(photo);
 		}
 	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		//return super.onKeyDown(keyCode, event);
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			finish();
+			this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		}
+		return true;
+	}
+	
+	
 
 }

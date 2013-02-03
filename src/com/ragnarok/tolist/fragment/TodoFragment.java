@@ -66,7 +66,6 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		Log.d(Constant.LOG_TAG, "onResume");
 		this.adapter.reloadThings();
 	}
 
@@ -79,6 +78,7 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		intent.putExtra(Constant.CONTENT, thing.content);
 		intent.putExtra(Constant.PICT_PATH, thing.pictPath);
 		this.startActivity(intent);
+		this.getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 	}
 
 	@Override
@@ -88,6 +88,7 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		SherlockFragmentActivity parent =  (SherlockFragmentActivity)(this.getActivity());
 		this.actionMode = parent.startActionMode(new EditThingMode(pos));
 		view.startAnimation(AnimationUtils.loadAnimation(this.getActivity(), android.R.anim.fade_out));
+		view.startAnimation(AnimationUtils.loadAnimation(this.getActivity(), android.R.anim.fade_in));
 		return true;
 	}
 	
