@@ -95,6 +95,7 @@ public class ToListAdapter extends BaseAdapter {
 		}
 		else {
 			view.setBackgroundColor(Color.rgb(255 - pos * 30, 75, 75));
+			//view.setBackgroundColor(Color.parseColor("#B2DFEE"));
 			titleView.setGravity(Gravity.CENTER);
 		}
 		

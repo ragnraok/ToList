@@ -1,9 +1,9 @@
 package com.ragnarok.tolist.activity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,17 +11,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -33,7 +28,7 @@ import com.ragnarok.tolist.db.ToListDB;
 import com.ragnarok.tolist.object.Thing;
 import com.ragnarok.tolist.utility.Constant;
 
-public class ThingEditActivity extends SherlockActivity {
+public class ThingEditActivity extends SherlockActivity implements OnClickListener {
 	
 	private ActionBar actionbar = null;
 	private static final String PHOTO = "Photo";
@@ -56,7 +51,7 @@ public class ThingEditActivity extends SherlockActivity {
 	private static final int PHOTO_FROM_CAMERA = 2;
 	private static final int PHOTO_CLIP = 3;
 	
-	private static final int PHOTO_SIZE = 130;
+	private static final int PHOTO_SIZE = 256;
 	
 	
 
@@ -89,6 +84,7 @@ public class ThingEditActivity extends SherlockActivity {
 			
 			this.ifModified = true;
 		}
+		this.imageView.setOnClickListener(this);
 	}
 
 	@Override
@@ -209,7 +205,7 @@ public class ThingEditActivity extends SherlockActivity {
 			if (requestCode == PHOTO_FROM_GALLERY) {
 				image = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
 				imageView.setImageBitmap(image);
-				tempFile.delete();
+				//tempFile.delete();
 				
 			}
 			else if (requestCode == PHOTO_FROM_CAMERA) {
@@ -265,6 +261,25 @@ public class ThingEditActivity extends SherlockActivity {
 			this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		}
 		return true;
+	}
+
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (v.getId() == R.id.image_thing_image) {
+			if (this.image != null) {
+				Log.d(Constant.LOG_TAG, "onClick");
+				Intent intent = new Intent(this, ShowImageActivity.class);
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+				byte[] data = baos.toByteArray();
+				intent.putExtra(Constant.IMAGE, data);
+				Log.d(Constant.LOG_TAG, "put image extra");
+				this.startActivity(intent);
+				this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+			}
+		}
 	}
 	
 	

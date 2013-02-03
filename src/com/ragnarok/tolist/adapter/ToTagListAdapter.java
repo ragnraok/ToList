@@ -62,20 +62,26 @@ public class ToTagListAdapter extends BaseAdapter {
 				return lhs.title.compareTo(rhs.title);
 			}
 		});
-		String currentTag = allThings.get(0).title.substring(0, 1);
-		thingStringList.add(new TypeValuePair(TypeValuePair.TAG, allThings.get(0)));
-		thingStringList.add(new TypeValuePair(TypeValuePair.THING, allThings.get(0)));
-		
-		for (int i = 1; i < allThings.size(); i++) {
-			Thing thing = allThings.get(i);
-			String tag = thing.title.substring(0, 1);
-			if (!tag.equals(currentTag)) {
-				currentTag = tag;
-				thingStringList.add(new TypeValuePair(TypeValuePair.TAG, thing));
-				thingStringList.add(new TypeValuePair(TypeValuePair.THING, thing));
-			}
-			else {
-				thingStringList.add(new TypeValuePair(TypeValuePair.THING, thing));
+		if (allThings.size() > 0) {
+			String currentTag = allThings.get(0).title.substring(0, 1);
+			thingStringList.add(new TypeValuePair(TypeValuePair.TAG, allThings
+					.get(0)));
+			thingStringList.add(new TypeValuePair(TypeValuePair.THING,
+					allThings.get(0)));
+
+			for (int i = 1; i < allThings.size(); i++) {
+				Thing thing = allThings.get(i);
+				String tag = thing.title.substring(0, 1);
+				if (!tag.equals(currentTag)) {
+					currentTag = tag;
+					thingStringList.add(new TypeValuePair(TypeValuePair.TAG,
+							thing));
+					thingStringList.add(new TypeValuePair(TypeValuePair.THING,
+							thing));
+				} else {
+					thingStringList.add(new TypeValuePair(TypeValuePair.THING,
+							thing));
+				}
 			}
 		}
 	}
@@ -113,7 +119,7 @@ public class ToTagListAdapter extends BaseAdapter {
 		if (pair.type == TypeValuePair.TAG) {
 			View view = inflater.inflate(R.layout.totag_line, null);
 			TextView textView = (TextView) view.findViewById(R.id.text_tag);
-			textView.setText(thing.title.substring(0, 1));
+			textView.setText(thing.title.substring(0, 1).toUpperCase());
 			
 			return view;
 		}
