@@ -1,3 +1,7 @@
 gen/
 bin/
 *.class
+.settings/
+.project
+proguard-project.txt
+lint.xml
