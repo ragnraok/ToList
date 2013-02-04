@@ -19,6 +19,7 @@ public class ShowImageActivity extends SherlockActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show_image);
+		this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		imageView = (ImageView) findViewById(R.id.image);
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle.containsKey(Constant.IMAGE)) {

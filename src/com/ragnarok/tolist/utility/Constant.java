@@ -14,4 +14,6 @@ public class Constant {
 	public static final String CONTENT = "content";
 	public static final String PICT_PATH = "pict_path";
 	public static final String IMAGE = "image";
+	
+	public static final int NOTIFY_ID = 1;
 }

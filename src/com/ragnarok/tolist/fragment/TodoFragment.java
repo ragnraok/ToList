@@ -1,8 +1,11 @@
 package com.ragnarok.tolist.fragment;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -19,9 +24,9 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.ragnarok.tolist.R;
+import com.ragnarok.tolist.activity.MainActivity;
 import com.ragnarok.tolist.activity.ThingEditActivity;
 import com.ragnarok.tolist.adapter.ToListAdapter;
-import com.ragnarok.tolist.db.ToListDB;
 import com.ragnarok.tolist.object.Thing;
 import com.ragnarok.tolist.utility.Constant;
 
@@ -41,6 +46,7 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+		startNotification();
 	}
 
 	@Override
@@ -67,6 +73,23 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.adapter.reloadThings();
+	}
+	
+	private void startNotification() {
+		String message = "you have " + this.adapter.getCount() + " things to do";
+		TextView notifyView = new TextView(this.getActivity());
+		notifyView.setText(message);
+		notifyView.setTextSize(25f);
+		
+		NotificationManager manager = (NotificationManager) this.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification notification = new Notification();
+		notification.icon = R.drawable.ic_launcher;
+		notification.flags = Notification.FLAG_ONGOING_EVENT;
+		PendingIntent intent = PendingIntent.getActivity(this.getActivity(), 1, 
+				new Intent(this.getActivity(), MainActivity.class),  PendingIntent.FLAG_ONE_SHOT);
+		notification.setLatestEventInfo(this.getActivity(), getString(R.string.app_name), message, intent);
+		manager.notify(Constant.NOTIFY_ID, notification);
+		
 	}
 
 	@Override
