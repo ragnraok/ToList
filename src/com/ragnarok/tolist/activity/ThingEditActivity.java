@@ -172,7 +172,7 @@ public class ThingEditActivity extends SherlockActivity implements OnClickListen
 	}
 	
 	private void getPictFromGallery() {
-		Intent intent = new Intent("android.intent.action.PICK");
+		Intent intent = new Intent(Intent.ACTION_PICK);
 		intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
 		intent.putExtra("output", Uri.fromFile(tempFile));
 		intent.putExtra("crop", "true");
