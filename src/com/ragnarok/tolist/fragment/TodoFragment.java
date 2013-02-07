@@ -214,10 +214,10 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 				// update dragView position;
 				params.x = x - dragView.getWidth() / 2;
 				params.y = y - dragView.getHeight() / 2;
-				if (x <= 0) {
+				if (params.x <= 0) {
 					params.x = 0;
 				}
-				if (y <= 0) {
+				if (params.y <= 0) {
 					params.y = 0;
 				}
 				WindowManager windowManager = this.getActivity()
@@ -248,7 +248,7 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 				return true;
 			}
 		}
-		else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+		else if (event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_OUTSIDE) {
 			restoreOriginView();
 		}
 		return false;
