@@ -1,6 +1,5 @@
 package com.ragnarok.tolist.fragment;
 
-import android.R.anim;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -149,28 +148,30 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		Bitmap tempBitmap = Bitmap.createBitmap(dragView.getDrawingCache());
 		Bitmap dragBitmap = Bitmap.createScaledBitmap(tempBitmap, (int)(tempBitmap.getWidth() * 1.1), 
 				(int)(tempBitmap.getHeight() * 1.1), false);
-		dragView.setVisibility(View.INVISIBLE);
 		addDragBitmapInScreen(dragBitmap);
 		isDragging = true;
+		((MainActivity)this.getSherlockActivity()).disableViewPager();
 		return true;
 	}
 	
-	private void addDragBitmapInScreen(Bitmap dropBitmap) {
+	private void addDragBitmapInScreen(final Bitmap dropBitmap) {
 		params = new WindowManager.LayoutParams();
 		params.gravity = Gravity.TOP | Gravity.LEFT;
-		params.x = dragView.getLeft() + 8;
-		params.y = (int) (dragView.getTop() + 45 * 0.01);
+		params.x = dragView.getLeft();
+		params.y = dragView.getTop();
 		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.width = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.alpha = 0.8f;
 		
-		ImageView imageView = new ImageView(this.getActivity());
+		dragView.setVisibility(View.INVISIBLE);
+		ImageView imageView = new ImageView(getActivity());
 		imageView.setImageBitmap(dropBitmap);
-		WindowManager windowManager = this.getActivity().getWindowManager();
+		WindowManager windowManager = getActivity().getWindowManager();
 		windowManager.addView(imageView, params);
 		
-		this.dragView = imageView;
+		dragView = imageView;
 		showDeleteView();
+		
 	}
 	
 	private void showDeleteView() {
@@ -206,6 +207,7 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		//Log.d(Constant.LOG_TAG, "onTouch");
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if (isDragging) {
+				((MainActivity)this.getSherlockActivity()).disableViewPager();
 				dragView.setBackgroundColor(originItemBackgroundColor);
 				bottomLayout.setBackgroundColor(originBottomBackgroundColor);
 				int x = (int) event.getX();
@@ -247,9 +249,11 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 				isDragging = false;
 				return true;
 			}
+			((MainActivity)this.getSherlockActivity()).enableViewPager();
 		}
 		else if (event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_OUTSIDE) {
 			restoreOriginView();
+			((MainActivity)this.getSherlockActivity()).enableViewPager();
 		}
 		return false;
 	}

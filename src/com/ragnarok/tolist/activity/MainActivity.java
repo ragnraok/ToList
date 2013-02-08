@@ -40,6 +40,14 @@ public class MainActivity extends SherlockFragmentActivity {
 		this.indicator.setFadeDelay(500);
 
 	}
+	
+	public void disableViewPager() {
+		this.viewPager.setEnabled(false);
+	}
+	
+	public void enableViewPager() {
+		this.viewPager.setEnabled(true);
+	}
 
 	@Override
 	protected void onPause() {
