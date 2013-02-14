@@ -98,6 +98,16 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		this.adapter.reloadThings();
 	}
 	
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		NotificationManager manager = (NotificationManager) this.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+		manager.cancelAll();
+		startNotification();
+	}
+
 	private void startNotification() {
 		String message = "you have " + this.adapter.getCount() + " things to do";
 		TextView notifyView = new TextView(this.getActivity());
@@ -137,8 +147,8 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		
 		this.originItemBackgroundColor = Color.rgb(255 - pos * 30, 75, 75);
 		
-		view.startAnimation(AnimationUtils.loadAnimation(this.getActivity(), android.R.anim.fade_out));
-		view.startAnimation(AnimationUtils.loadAnimation(this.getActivity(), android.R.anim.fade_in));
+		//view.startAnimation(AnimationUtils.loadAnimation(this.getActivity(), android.R.anim.fade_out));
+		//view.startAnimation(AnimationUtils.loadAnimation(this.getActivity(), android.R.anim.fade_in));
 		
 		deleteIndex = pos;
 		dragView = this.gridView.getChildAt(pos);
@@ -291,51 +301,5 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		this.adapter.reloadThings();
 	}
 	
-/*	
-	private final class EditThingMode implements ActionMode.Callback {
-		
-		private int elemntIndex = 0;
-		
-		public EditThingMode(int index) {
-			this.elemntIndex = index;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			// TODO Auto-generated method stub
-			//return false;
-			menu.add(DONE)
-			.setIcon(R.drawable.done)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-			
-			return true;
-		}
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			// TODO Auto-generated method stub
-			if (item.getTitle().equals(DONE)) {
-				adapter.removeThing(this.elemntIndex);
-			}
-			if (actionMode != null) {
-				actionMode.finish();
-			}
-			return true;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
-*/	
 	
 }
