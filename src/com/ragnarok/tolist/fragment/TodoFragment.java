@@ -156,11 +156,12 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		dragView.setDrawingCacheEnabled(true);
 		dragView.setDrawingCacheBackgroundColor(Color.TRANSPARENT);
 		Bitmap tempBitmap = Bitmap.createBitmap(dragView.getDrawingCache());
-		Bitmap dragBitmap = Bitmap.createScaledBitmap(tempBitmap, (int)(tempBitmap.getWidth() * 1.1), 
-				(int)(tempBitmap.getHeight() * 1.1), false);
+		Bitmap dragBitmap = Bitmap.createScaledBitmap(tempBitmap, (int)(tempBitmap.getWidth()), 
+				(int)(tempBitmap.getHeight()), false);
 		addDragBitmapInScreen(dragBitmap);
 		isDragging = true;
 		((MainActivity)this.getSherlockActivity()).disableViewPager();
+		
 		return true;
 	}
 	
@@ -168,7 +169,7 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		params = new WindowManager.LayoutParams();
 		params.gravity = Gravity.TOP | Gravity.LEFT;
 		params.x = dragView.getLeft();
-		params.y = dragView.getTop();
+		params.y = dragView.getTop() + 50;
 		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.width = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.alpha = 0.8f;
@@ -218,7 +219,8 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if (isDragging) {
 				((MainActivity)this.getSherlockActivity()).disableViewPager();
-				dragView.setBackgroundColor(originItemBackgroundColor);
+				if (dragView != null)
+					dragView.setBackgroundColor(originItemBackgroundColor);
 				bottomLayout.setBackgroundColor(originBottomBackgroundColor);
 				int x = (int) event.getX();
 				int y = (int) event.getY();

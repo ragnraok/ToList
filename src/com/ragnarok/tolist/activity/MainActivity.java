@@ -43,10 +43,14 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	public void disableViewPager() {
 		this.viewPager.setEnabled(false);
+		this.viewPager.setActivated(false);
+		this.viewPager.requestDisallowInterceptTouchEvent(true);
 	}
 	
 	public void enableViewPager() {
 		this.viewPager.setEnabled(true);
+		this.viewPager.setActivated(true);
+		this.viewPager.requestDisallowInterceptTouchEvent(false);
 	}
 
 	@Override
