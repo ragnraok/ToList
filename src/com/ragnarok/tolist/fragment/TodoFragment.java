@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -168,8 +170,8 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 	private void addDragBitmapInScreen(final Bitmap dropBitmap) {
 		params = new WindowManager.LayoutParams();
 		params.gravity = Gravity.TOP | Gravity.LEFT;
-		params.x = dragView.getLeft();
-		params.y = dragView.getTop() + 50;
+		params.x = (int) dragView.getLeft();
+		params.y = (int) dragView.getTop();
 		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.width = WindowManager.LayoutParams.WRAP_CONTENT;
 		params.alpha = 0.8f;
@@ -261,21 +263,22 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 				isDragging = false;
 				return true;
 			}
-			((MainActivity)this.getSherlockActivity()).enableViewPager();
+			//((MainActivity)this.getSherlockActivity()).enableViewPager();
 		}
 		else if (event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_OUTSIDE) {
 			restoreOriginView();
-			((MainActivity)this.getSherlockActivity()).enableViewPager();
+			//((MainActivity)this.getSherlockActivity()).enableViewPager();
 		}
 		return false;
 	}
 	
 	private void restoreOriginView() {
-		if (dragView != null) {
-			WindowManager windowManager = this.getActivity().getWindowManager();
-			windowManager.removeView(dragView);
+		((MainActivity)TodoFragment.this.getSherlockActivity()).enableViewPager();
+		if (dragView != null && isDragging) {
+			final WindowManager windowManager = this.getActivity().getWindowManager();	
+			windowManager.removeView(dragView);	
 		}
-		dragView = null;
+		//dragView = null;
 		this.bottomLayout.setBackgroundColor(originBottomBackgroundColor);
 		Animation fadeOutAnim = AnimationUtils.loadAnimation(this.getActivity(), android.R.anim.fade_out);
 		this.bottomLayout.startAnimation(fadeOutAnim);
@@ -301,6 +304,7 @@ public class TodoFragment extends SherlockFragment implements OnItemClickListene
 		});
 
 		this.adapter.reloadThings();
+		
 	}
 	
 	
